@@ -2,10 +2,31 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Backbone from 'backbone'
 import init from './init'
+import HomeView from './views/homeView'
 
 
 const app = function() {
-  document.querySelector('.container').innerHTML = "<h1>Woah!</h1>"
+
+	const Router = Backbone.Router.extend({
+		routes: {
+			"home": "handleHome",
+			"browse": "handleBrowse",
+			"*default": "handleDefault"
+		},
+		handleHome: function(){
+			ReactDOM.render(<HomeView />, document.querySelector(".container"))
+		},
+		handleDefault: function(){
+			ReactDOM.render(<HomeView />, document.querySelector(".container"))
+		},
+		handleDefault: function(){
+			location.hash = "home"
+		},
+		initialize: function() {
+			Backbone.history.start()
+		}
+	})
+	new Router()
 }
 
 // x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..
