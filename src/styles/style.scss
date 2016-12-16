@@ -1,10 +1,142 @@
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap";
 * {
 	font-family: Helvetica, Arial, sans-serif;
 	box-sizing: border-box;
 }
+body {
+	line-height: 1.5;
+}
+li {
+    list-style-type: none;
+}
 
 h1 {
-	font-size: 300px;
 	text-align: center;
-	color: fuchsia;
+
+}
+img {
+	width: 100%;
+}
+.detail-containter {
+	background-color: gray;
+}
+.bio{
+	background-color: #003366;
+	color: white;
+	width: 90%;
+	text-align: center;
+	font-family: "Times New Roman", Times, serif;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+	.bio-title{
+		height: 80px;
+		h3{
+			margin: auto;
+			width: 80%;
+			padding: 8px 0;
+			margin-top: 5px;
+			border-bottom: solid white 2px;
+			font-family: "Times New Roman", Times, serif;
+		}
+	}
+	p{
+		font-family: "Times New Roman", Times, serif;	
+	}
+	img{
+		max-width: 80%;
+	}
+	button{
+		max-width: 80%;
+		color: black;
+		background-color: #CCCCCC;
+		margin-bottom: 5px;
+		white-space: normal;
+	}
+}
+div .header-top{
+	position: relative;
+	width: 100%;
+	background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/0/02/US_Capitol_Building_Front_New.jpg/1600px-US_Capitol_Building_Front_New.jpg');
+    background-color: #cccccc;
+    background-repeat: no-repeat;
+    min-height: 350px;
+    background-size: cover;
+    background-position: center;;
+    
+	h1 {
+		position: absolute;
+		color: white;
+		margin: auto;
+    	width: 100%;
+    	text-align: center;
+    	bottom: 250px;
+    	font-family: "Times New Roman", Times, serif;
+    	text-shadow: 1px -1px 3px black;
+	}
+}
+div .header-menu{
+	background-color: #003366;
+	display: block;
+	width: 100%;
+	height: 40px;
+	a{
+		color: white;
+		display: inline-block;
+		position: relative;
+		font-family: "Times New Roman", Times, serif;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	nav {
+		text-align: center;
+	}
+	.link, .link2{
+		margin: 0 .5rem;
+		padding: 0 .5rem;
+		height: 40px;
+		line-height: 40px;
+	}
+}
+.home-body{
+	background-color: #CCCCCC;
+	width: 100%;
+	font-family: "Times New Roman", Times, serif;
+	text-align: center;
+	min-height: 450px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	display: inline-block;
+}
+.rep-list{
+	background-color: #CCCCCC;
+}
+.home-title{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	text-align: center;
+	color: black;
+	text-shadow: 1px -1px 3px white;
+}
+.table-view{
+	width: 66%;
+	display: inline-block;
+}
+table{
+	background-color: white;
+    border: 1px solid black;
+    width: 50%;
+    color: #003366;
+    .total{
+    	width: 25%;
+    }
+    .industry{
+    	width: 50%;
+    }
+    td{
+    	padding: 10px;
+  		border: 1px solid black;
+    }
+    tr{
+
+    }
 }

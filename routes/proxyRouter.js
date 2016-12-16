@@ -4,7 +4,8 @@ const proxyRouter = Router()
 
 
 proxyRouter.get('/', function (req, res) {
-	var fullURL = `${req.query.baseURL}?apikey=${req.query.apikey}&id=${req.query.id}&method=${req.query.method}&output=${req.query.output}`
+	var fullURL = `${req.query.baseURL}?apikey=${req.query.apikey}&id=${req.query.id}&cid=${req.query.cid}&method=${req.query.method}&output=${req.query.output}`
+	console.log(fullURL)
 	request(fullURL,function(error,response,body) {
 		console.log('error',error)
 		if (error) {
@@ -18,6 +19,5 @@ proxyRouter.get('/', function (req, res) {
 		}
 	})
 });
-
 
 module.exports = proxyRouter

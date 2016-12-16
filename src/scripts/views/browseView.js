@@ -3,9 +3,9 @@ import ACTIONS from '../actions'
 import STORE from '../store'
 import Header from './headerView'
 
-const HomeView = React.createClass({
+const BrowseView = React.createClass({
 	componentWillMount: function() {
-		navigator.geolocation.getCurrentPosition(ACTIONS.getCoords)
+		ACTIONS.fetchLegList()
 		STORE.on('Update!',()=>{
 			this.setState(STORE._getData())
 		})
@@ -17,24 +17,41 @@ const HomeView = React.createClass({
 		return STORE._getData()
 	},
 	render: function(){
+		console.log(this.state)
 		return(
-			<div className='home-view'>
+			<div>
 				<Header />
 				<div className='home-body'>
-					<h3 className= 'home-title'>Here are your district's Representative and Senators</h3>
-					<HomeDisplay collection={this.state.localSunlightCollection}/>
+					<ButtonList collection={this.state.stateCodeList}/>
+					<HomeDisplay collection ={this.state.currentStateReps}/>
 				</div>
 			</div>
 		)
 	}
 })
-
-const HomeDisplay = React.createClass({
+const ButtonList = React.createClass({
+	_showDeets: function(eventObj) {
+		eventObj.preventDefault()
+		ACTIONS.fetchByState(eventObj.target.whichState.value)
+	},
 	render: function(){
-		console.log('data: ',STORE._data)
 		var col = this.props.collection
 		return(
-			<ul className='rep-list'>
+			<form onSubmit={this._showDeets}>
+				<select name="whichState" >
+					{col.map(stateCode => <option>{stateCode}</option>)}
+				</select>
+				<button type='submit'>Submit</button>
+			</form>
+		)
+	}
+
+})
+const HomeDisplay = React.createClass({
+	render: function(){
+		var col = this.props.collection
+		return(
+			<ul>
 				{col.map(legModel=> <Detail model={legModel} />)}
 			</ul>
 		)
@@ -82,4 +99,4 @@ const Detail = React.createClass({
 	}
 })
 
-export default HomeView
+export default BrowseView

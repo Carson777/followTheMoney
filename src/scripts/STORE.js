@@ -1,14 +1,20 @@
 import Backbone from 'backbone'
 import _ from 'underscore'
-import {LegislatorCollection} from "./models/models"
+import {LegislatorCollection, DetailCollection, LocalSunlightCollection, TotalSunlightCollection} from "./models/models"
 
 const STORE = _.extend(Backbone.Events,{
 
 	_data: {
 		legCollection: new LegislatorCollection(),
-		coords: {},
-		state:{},
-		stateFetched: 'false'
+		localSunlightCollection: new LocalSunlightCollection(),
+		totalSunlightCollection: new TotalSunlightCollection(),
+		stateCode: '',
+		currentStateReps: [],
+		currentDetailRep: [],
+		detailCollection: new DetailCollection(),
+		stateCodeList: ["AK","AL","AR","AZ","CA","CO","CT","DE","FL","GA","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"],
+		industriesLoading: true
+
 	},
 	_emitChange: function() {
 		console.log('RELOADING')

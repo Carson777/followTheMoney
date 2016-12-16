@@ -1,24 +1,35 @@
 import STORE from './store'
-import {LegislatorCollection, geolocationFinder} from "./models/models"
+import {LegislatorCollection, geolocationFinder, DetailCollection, LocalSunlightCollection, TotalSunlightCollection} from "./models/models"
+import $ from 'jquery'
 
 const ACTIONS = {
 	getCoords: function(responseObject){
-			var latLong = responseObject.coords.latitude + ',' + responseObject.coords.longitude
-			//use STORE._set to update the coords property of _data to the lat/long
-			var coords = {
-				coords:{
-					'latLong':latLong
-				}
-			}
-			STORE._set(coords)
+			var lat = responseObject.coords.latitude
+			var long = responseObject.coords.longitude
+			console.log('coords fetched')
+			ACTIONS.fetchLocalRep(lat,long)
 		},
-	fetchData: function(){
+	fetchByState: function(stateCode){
+		var currentStateReps = []
+		var legislators = STORE._data.totalSunlightCollection
+		for( var i = 0; i < legislators.length; i++){
+			if(legislators.models[i].get('state') === stateCode){
+				currentStateReps.push(legislators.models[i])
+			}
+		}
+		STORE._set({
+			'currentStateReps': currentStateReps
+		})
+
+	},
+	fetchData: function(stateCode){
+		console.log('fetching data')
 		var l = new LegislatorCollection()
 		l.fetch({
 			dataType: 'json',
 			data: {
 				baseURL: 'https://www.opensecrets.org/api',
-				id: l._id,
+				id: stateCode,
 				apikey: l._key,
 				output: 'json',
 				method: 'getLegislators'
@@ -26,39 +37,96 @@ const ACTIONS = {
 		}).then(
 			function(resp){
 				STORE._set({
-					legCollection: l
+					legCollection: l.models
 				})
 			},
 			function(err) {
 				console.log(err)
 			})
 	},
-	fetchState: function(){
-		var g = new geolocationFinder()
-		g.fetch({
-			data: {
-				key: g._key,
-				latlng: STORE._data.coords.latLong
+	findRepDetails: function(cid){
+		var currentDetailRep = []
+		var legislators = STORE._data.totalSunlightCollection
+		for( var i = 0; i < legislators.length; i++){
+			if(legislators.models[i].get('crp_id') === cid){
+				currentDetailRep.push(legislators.models[i])
+			} 
+		}
+		STORE._set({
+				'currentDetailRep': currentDetailRep
+		})
+	},
+	fetchByState: function(stateCode){
+		var currentStateReps = []
+		var legislators = STORE._data.totalSunlightCollection
+		for( var i = 0; i < legislators.length; i++){
+			if(legislators.models[i].get('state') === stateCode){
+				currentStateReps.push(legislators.models[i])
+			}
+		}
+		STORE._set({
+			'currentStateReps': currentStateReps
+		})
+
+	},
+	fetchLegList: function(cid){
+		var l = new TotalSunlightCollection()
+		l.fetch({
+			data:{
+				apikey:l._key,
+				all_legislators: 'true',
+				per_page: 'all'
 			}
 		}).then(function(){
-			console.log(g)
 			STORE._set({
-				state: g,
-				stateFetched: 'true'
+				totalSunlightCollection: l
+			})
+			if(cid){
+				ACTIONS.findRepDetails(cid)
+			}
+		})
+	},
+	fetchLocalRep: function(lat, long){
+		var s = new LocalSunlightCollection()
+		s.fetch({
+			data: {
+				apikey: s._key,
+				latitude: lat,
+				longitude: long
+			}
+		}).then(function(){
+			STORE._set({
+				localSunlightCollection: s
 			})
 		})
+	},
+	showDeets: function(cid){
+		STORE._set({
+			industriesLoading: true
+		})
+		var d = new DetailCollection()
+		d.fetch({
+			dataType: 'json',
+			data: {
+				baseURL: 'https://www.opensecrets.org/api',
+				cid: cid,
+				apikey: d._key,
+				cycle: '2016',
+				output: 'json',
+				method: 'candIndustry'
+			}
+		}).then(
+			function(resp){
+				STORE._set({
+					detailCollection: d,
+					industriesLoading: false
+
+				})
+			},
+			function(err) {
+				console.log(err)
+			})
 	}
-	// fetchData: function(){
-	// 	var l = new LegislatorCollection()
-	// 	l.fetch({
-	// 		data: {
-	// 			apikey: l._key
-	// 		}
-	// 	}).then(function(){
-	// 		STORE._set({
-	// 			legCollection: l
-	// 		})
-	// 	})
-	// }
+
 }
 export default ACTIONS
