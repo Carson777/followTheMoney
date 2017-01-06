@@ -88,8 +88,8 @@ const IndustryDisplay = React.createClass({
 					<caption>Top Contributors by Industry for {col.cand_name}</caption>
 					<thead>
 						<tr>
-							<td>Total</td>
-							<td>Industry</td>
+							<td className='table-header'>Total</td>
+							<td className='table-header'>Industry</td>
 						</tr>
 					</thead>
 					<tbody>
